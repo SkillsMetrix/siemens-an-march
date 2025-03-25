@@ -1,35 +1,31 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+<div mat-dialog-title>
+    <h3>Employee Registration Form</h3>
+
+</div>
+<div mat-dialog-content class="content">
+    <div class="row">
+        <mat-form-field appearance="outline">
+            <mat-label>First Name</mat-label>
+            <input matInput type="text" placeholder="Enter Name">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" placeholder="Enter Email">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Password</mat-label>
+            <input matInput type="password" placeholder="Enter Password">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Choose DOB</mat-label>
+            <input matInput [matDatepicker]="picker">
+            <mat-hint>MM/DD/YY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
 
 
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatToolbarModule } from '@angular/material/toolbar'
-import { MatRadioModule } from '@angular/material/radio'
-import { MatTableModule } from '@angular/material/table'
-import { MatSelectModule } from '@angular/material/select'
-import { MatPaginatorModule } from '@angular/material/paginator'
-import { MatSnackBarModule } from '@angular/material/snack-bar'
-import { MatSortModule } from '@angular/material/sort'
-import { MatIconModule } from '@angular/material/icon'
-import { MatDatepickerModule } from '@angular/material/datepicker'
-
-
-@NgModule({
-
-    imports: [
-        BrowserModule,
-        MatButtonModule, MatFormFieldModule, MatInputModule, MatToolbarModule,
-        MatRadioModule, MatTableModule, MatSelectModule, MatPaginatorModule,
-        MatSnackBarModule, MatSortModule, MatIconModule, MatDatepickerModule
-
-    ],
-    exports: [
-        MatButtonModule, MatFormFieldModule, MatInputModule, MatToolbarModule,
-        MatRadioModule, MatTableModule, MatSelectModule, MatPaginatorModule,
-        MatSnackBarModule, MatSortModule, MatIconModule, MatDatepickerModule
-    ]
-
-})
-export class MaterialModule { }
+    </div>
+</div>
