@@ -8,19 +8,25 @@
             <mat-form-field appearance="outline">
                 <mat-label>First Name</mat-label>
                 <input matInput type="text" placeholder="Enter Name" formControlName="uname">
-               
+
+                <mat-error *ngIf="userForm.controls['uname'].hasError('required')">
+                    Name cant be blank
+                </mat-error>
+
             </mat-form-field>
             <mat-form-field appearance="outline">
                 <mat-label>Email</mat-label>
                 <input matInput type="email" placeholder="Enter Email" formControlName="email">
+                <mat-error *ngIf="userForm.controls['email'].hasError('emailDomain')">
+                    domain must be siemens
+                </mat-error>
 
-               
             </mat-form-field>
         </div>
         <div class="row">
             <mat-form-field appearance="outline">
                 <mat-label>Password</mat-label>
-                <input matInput type="password" placeholder="Enter Password" formControlName="email">
+                <input matInput type="password" placeholder="Enter Password" formControlName="password">
             </mat-form-field>
 
             <mat-form-field appearance="outline">
@@ -69,16 +75,18 @@
 
         <div mat-dialog-actions>
             <button mat-raised-button>Cancel</button>
-            <button mat-raised-button color="primary">Save</button>
+            <button mat-raised-button color="primary" [disabled]="userForm.invalid">Save</button>
 
         </div>
     </div>
 </form>
 
-------------
+
+---------------
+
 
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-userform',
@@ -86,30 +94,46 @@ import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
   styleUrl: './userform.component.css'
 })
 export class UserformComponent {
-userForm:FormGroup
-  constructor(private fb:FormBuilder){
-    this.userForm=this.fb.group({
-      uname:'',
-      email:'',
-      password:'',
-      dob:'',
-      gender:'',
-      education:'',
-      company:'',
-      exp:'',
-      country:''
+  userForm: FormGroup
+  constructor(private fb: FormBuilder) {
+    this.userForm = this.fb.group({
+      uname: ['', [Validators.required]],
+      email: ['', [Validators.required, this.emailDomainValidator]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      dob: '',
+      gender: '',
+      education: '',
+      company: '',
+      exp: '',
+      country: ''
     })
 
   }
-  addUser(){
-      console.log(this.userForm.value);
+  addUser() {
+    console.log(this.userForm.value);
+
+  }
+  education: string[] = [
+    'CA',
+    'MCA',
+    'Diploma',
+    'Masters'
+  ]
+  emailDomainValidator(control: FormControl) {
+    let email = control.value
+    if (email && email.indexOf('@') != -1) {
+      let [_, domain] = email.split('@')
+      console.log(_);
       
+      if (domain !== 'siemens.com') {
+        return {
+          emailDomain: {
+            mydomain: domain
+          }
+        }
+      }
     }
-    education:string[]=[
-      'CA',
-      'MCA',
-      'Diploma',
-      'Masters'
-    ]
+    return null
+  }
 
 }
