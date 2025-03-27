@@ -1,0 +1,51 @@
+import { Component, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { UserService } from '../../shared/user.service';
+import { CoreService } from '../../shared/core.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { UserformComponent } from '../userform/userform.component';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+
+@Component({
+  selector: 'app-register',
+  templateUrl: './register.component.html',
+  styleUrl: './register.component.css'
+})
+export class RegisterComponent {
+
+  constructor(private _dialog: MatDialog, private service: UserService,
+    private cs: CoreService
+
+  ) { }
+
+  dataSource!: MatTableDataSource<any>
+  @ViewChild(MatPaginator) paginator!: MatPaginator
+  @ViewChild(MatSort) sort!: MatSort
+
+  openAddEditEmpForm() {
+    const drf = this._dialog.open(UserformComponent)
+    drf.afterClosed().subscribe({
+      next: (val) => {
+        if (val) {
+          this.getUsersList()
+        }
+      }
+    })
+  }
+  getUsersList() {
+    this.service.loadUsers().subscribe({
+      next: (res) => {
+        this.dataSource = new MatTableDataSource(res)
+        this.dataSource.sort = this.sort
+        this.dataSource.paginator = this.paginator
+
+      }
+    })
+  }
+}
+
+---------------
+
+
+<button mat-flat-button (click)="openAddEditEmpForm()">Add Employee</button>
