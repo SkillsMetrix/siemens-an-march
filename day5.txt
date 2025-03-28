@@ -17,6 +17,19 @@ export class MovieEffects {
         )
     )
 
+
+ addMovie$ = createEffect(() =>
+    this.action$.pipe(
+      ofType(addMovies),
+      tap((movie) => console.log(movie)),
+      concatMap(({ movie }) =>
+        this.ds.addMovies(movie).pipe(
+          map((newMovie) => addMoviesSuccess(newMovie))
+          
+        )
+      )
+    )
+  );
     constructor(private action: Actions, private ds: DataService) { }
 
 }
