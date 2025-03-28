@@ -1,0 +1,22 @@
+import { Injectable } from "@angular/core";
+import { Actions, createEffect, ofType } from "@ngrx/effects";
+import { DataService } from "src/app/Service/data.service";
+import { getMovies, getMoviesSuccess } from "../Actions/movie.action";
+import { exhaustMap, map } from "rxjs/operators";
+
+@Injectable()
+export class MovieEffects {
+    loadMovie$ = createEffect(() =>
+        this.action.pipe(
+            ofType(getMovies),
+            exhaustMap(() =>
+                this.ds.getMovies().pipe(
+                    map((movies) => getMoviesSuccess(movies))
+                )
+            )
+        )
+    )
+
+    constructor(private action: Actions, private ds: DataService) { }
+
+}
