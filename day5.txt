@@ -20,3 +20,37 @@ export class MovieEffects {
     constructor(private action: Actions, private ds: DataService) { }
 
 }
+
+
+----import { createAction, props } from "@ngrx/store";
+import { Movie } from "src/app/Models/movie";
+
+
+export const getMovies = createAction('[Movie] Get Movie')
+export const getMoviesSuccess = createAction('[Movie] Get Movies',
+
+    (movies:ReadonlyArray<Movie>)=>({movies})
+)
+export const addMovies = createAction('[Movie]', (movie: Movie) => ({movie}))
+export const addMoviesSuccess = createAction('[Movie] add movie success', props<{ movie: Movie }>())
+
+
+-------------
+
+import { createReducer, on } from "@ngrx/store";
+import { Movie } from "src/app/Models/movie";
+import { addMovies, getMovies, getMoviesSuccess } from "../Actions/movie.action";
+
+
+export interface MovieState {
+    movies: ReadonlyArray<Movie>
+}
+const initialState: ReadonlyArray<Movie> = []
+
+export const movieReducer = createReducer(
+    initialState,
+    on(getMoviesSuccess, (state, { movies }) => [...movies]),
+    on(addMovies, (state, { movie }) => [...state, movie])
+
+
+)
